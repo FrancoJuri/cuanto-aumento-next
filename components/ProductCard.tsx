@@ -22,7 +22,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <div className="relative aspect-[4/5] bg-gradient-to-br from-gray-50 to-gray-100">
           {/* Bookmark Button */}
           <button
-            className="absolute top-3 right-3 p-2 rounded-lg bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-400 hover:text-blue-600 hover:bg-white transition-colors z-10"
+            className="absolute top-3 right-3 p-2 rounded-lg bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-400 hover:text-brand-primary hover:bg-white transition-colors z-10"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -49,12 +49,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </p>
 
           {/* Product Name */}
-          <h3 className="font-medium text-gray-900 text-sm line-clamp-2 mb-2 group-hover:text-blue-600 transition-colors">
+          <h3 className="font-medium text-gray-900 text-sm line-clamp-2 mb-2 group-hover:text-brand-primary transition-colors">
             {product.name}
           </h3>
 
           {/* Supermarket Count */}
-          <p className="text-xs text-blue-600 font-medium">
+          <p className="text-xs text-brand-primary font-medium">
             Precios en {product.supermarketCount} supermercado
             {product.supermarketCount !== 1 ? "s" : ""}
           </p>

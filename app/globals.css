@@ -13,17 +13,27 @@ html {
   --active-filter: #1a202c;
   --inactive-filter: #f1f5f9;
   --border-color: #e2e8f0;
+  /* Brand Colors - Argentina Flag Theme */
+  --brand-primary: #74ACDF;
+  --brand-primary-dark: #5A9BD4;
+  --brand-secondary: #F6B40E;
+  --brand-secondary-dark: #D99F0B;
 }
 
 @theme inline {
-  --color-bg-main: var(--bg-main);
-  --color-card-bg: var(--card-bg);
-  --color-primary-text: var(--primary-text);
-  --color-secondary-text: var(--secondary-text);
-  --color-brand-blue: var(--brand-blue);
-  --color-active-filter: var(--active-filter);
-  --color-inactive-filter: var(--inactive-filter);
-  --color-border: var(--border-color);
+  --color-bg-main: #f8fafd;
+  --color-card-bg: #ffffff;
+  --color-primary-text: #1a202c;
+  --color-secondary-text: #718096;
+  --color-brand-blue: #2563eb;
+  --color-active-filter: #1a202c;
+  --color-inactive-filter: #f1f5f9;
+  --color-border: #e2e8f0;
+  /* Brand Colors - Argentina Flag Theme */
+  --color-brand-primary: #74ACDF;
+  --color-brand-primary-dark: #5A9BD4;
+  --color-brand-secondary: #F6B40E;
+  --color-brand-secondary-dark: #D99F0B;
 }
 
 body {

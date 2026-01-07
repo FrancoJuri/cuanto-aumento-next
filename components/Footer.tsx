@@ -56,7 +56,7 @@ const Footer = () => {
               href="https://francojuri.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:underline"
+              className="text-brand-primary hover:underline"
             >
               Franco Juri
             </Link>
