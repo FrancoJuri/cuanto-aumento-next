@@ -1,65 +1,162 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useCallback } from "react";
+import {
+  HeroSection,
+  CategoriesSection,
+  ProductGrid,
+  Footer,
+  Product,
+} from "@/components";
+
+// Mock data for products
+const mockProducts: Product[] = [
+  {
+    id: "1",
+    name: "Casancrem 290 G",
+    brand: "CASANCREM",
+    supermarketCount: 7,
+    slug: "casancrem-290g",
+  },
+  {
+    id: "2",
+    name: "Dulce De Leche Clásico La Serenísima Con Calcio 400 G",
+    brand: "LA SERENÍSIMA",
+    supermarketCount: 7,
+    slug: "dulce-de-leche-clasico-la-serenisima-400g",
+  },
+  {
+    id: "3",
+    name: "Leche Descremada La Serenísima 1 L",
+    brand: "LA SERENÍSIMA",
+    supermarketCount: 6,
+    slug: "leche-descremada-la-serenisima-1l",
+  },
+  {
+    id: "4",
+    name: "Leche Descremada La Serenísima Protein Larga Vida 1l",
+    brand: "LA SERENÍSIMA",
+    supermarketCount: 5,
+    slug: "leche-descremada-protein-1l",
+  },
+  {
+    id: "5",
+    name: "Leche En Polvo La Serenísima Descremada 400 G",
+    brand: "LA SERENÍSIMA",
+    supermarketCount: 4,
+    slug: "leche-en-polvo-descremada-400g",
+  },
+  {
+    id: "6",
+    name: "Leche En Polvo Svelty Descremada Extra Calcio 750 G",
+    brand: "SVELTY",
+    supermarketCount: 7,
+    slug: "leche-en-polvo-svelty-750g",
+  },
+  {
+    id: "7",
+    name: "Leche Larga Vida Parcialmente Descremada Liviana 1% 1l",
+    brand: "LA SERENÍSIMA",
+    supermarketCount: 6,
+    slug: "leche-larga-vida-descremada-1l",
+  },
+  {
+    id: "8",
+    name: "Manteca La Serenísima 200 G",
+    brand: "LA SERENÍSIMA",
+    supermarketCount: 6,
+    slug: "manteca-la-serenisima-200g",
+  },
+  {
+    id: "9",
+    name: "Queso Reggianito Rallado La Serenísima 130 G",
+    brand: "LA SERENÍSIMA",
+    supermarketCount: 5,
+    slug: "queso-reggianito-rallado-130g",
+  },
+  {
+    id: "10",
+    name: "Yogur Bebible Frutilla Yogurísimo 900 G",
+    brand: "YOGURÍSIMO",
+    supermarketCount: 4,
+    slug: "yogur-bebible-frutilla-900g",
+  },
+  {
+    id: "11",
+    name: "Cerveza Quilmes Clásica 1L",
+    brand: "QUILMES",
+    supermarketCount: 5,
+    slug: "cerveza-quilmes-clasica-1l",
+  },
+  {
+    id: "12",
+    name: "Pepino X Kg",
+    brand: "SIN MARCA",
+    supermarketCount: 7,
+    slug: "pepino-x-kg",
+  },
+  {
+    id: "13",
+    name: "Banana X Kg",
+    brand: "SIN MARCA",
+    supermarketCount: 6,
+    slug: "banana-x-kg",
+  },
+  {
+    id: "14",
+    name: "Yerba Mate Playadito 1kg",
+    brand: "PLAYADITO",
+    supermarketCount: 7,
+    slug: "yerba-mate-playadito-1kg",
+  },
+  {
+    id: "15",
+    name: "Fideos Marolio Mostachol 500g",
+    brand: "MAROLIO",
+    supermarketCount: 6,
+    slug: "fideos-marolio-mostachol-500g",
+  },
+];
 
 export default function Home() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("todos");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handleCategoryChange = useCallback((slug: string) => {
+    setActiveCategory(slug);
+    setCurrentPage(1);
+  }, []);
+
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page);
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="min-h-screen bg-bg-main">
+      {/* Hero Section */}
+      <HeroSection searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+
+      {/* Categories Section */}
+      <CategoriesSection
+        activeCategory={activeCategory}
+        onCategoryChange={handleCategoryChange}
+        isSticky={true}
+      />
+
+      {/* Products Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <ProductGrid
+          products={mockProducts}
+          currentPage={currentPage}
+          totalPages={2}
+          onPageChange={handlePageChange}
+          searchQuery={searchQuery}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
