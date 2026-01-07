@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import {
+  Header,
   ProductDetailHeader,
   ProductInfoCard,
   PriceEvolutionChart,
@@ -123,6 +124,9 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
   return (
     <div className="min-h-screen bg-bg-main">
+      {/* Header */}
+      <Header />
+
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
