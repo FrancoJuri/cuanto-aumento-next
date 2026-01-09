@@ -119,7 +119,6 @@ const mockProducts: Product[] = [
 ];
 
 export default function Home() {
-  const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("todos");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -135,7 +134,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-bg-main">
       {/* Hero Section */}
-      <HeroSection searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <HeroSection />
 
       {/* Categories Section */}
       <CategoriesSection
@@ -151,7 +150,6 @@ export default function Home() {
           currentPage={currentPage}
           totalPages={2}
           onPageChange={handlePageChange}
-          searchQuery={searchQuery}
         />
       </div>
 
@@ -160,3 +158,4 @@ export default function Home() {
     </div>
   );
 }
+

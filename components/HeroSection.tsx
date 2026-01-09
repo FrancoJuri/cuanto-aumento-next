@@ -1,40 +1,29 @@
 "use client";
 
 import { Search } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
-import Particles, { initParticlesEngine } from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim";
-import type { Container, Engine } from "@tsparticles/engine";
+import { useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import ParticlesBackground from "./ParticlesBackground";
 
-interface HeroSectionProps {
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-}
-
-const HeroSection = ({ searchQuery, setSearchQuery }: HeroSectionProps) => {
-  const [init, setInit] = useState(false);
-
-  // this should be run only once per application lifetime
-  useEffect(() => {
-    initParticlesEngine(async (engine: Engine) => {
-      // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
-      // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-      // starting from v2 you can add only the features you need reducing the bundle size
-      await loadSlim(engine);
-    }).then(() => {
-      setInit(true);
-    });
-  }, []);
-
-  const particlesLoaded = async (container?: Container): Promise<void> => {
-    console.log(container);
-  };
+const HeroSection = () => {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchQuery(e.target.value);
     },
-    [setSearchQuery]
+    []
+  );
+
+  const handleSearchSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      if (searchQuery.trim()) {
+        router.push(`/buscar?q=${encodeURIComponent(searchQuery.trim())}`);
+      }
+    },
+    [searchQuery, router]
   );
 
   return (
@@ -49,106 +38,7 @@ const HeroSection = ({ searchQuery, setSearchQuery }: HeroSectionProps) => {
         <div className="absolute -bottom-[10%] left-[30%] w-[35rem] h-[35rem] bg-gradient-to-tr from-blue-300/40 to-sky-300/40 rounded-full blur-3xl opacity-80" />
       </div>
 
-      {init && (
-        <div className="absolute inset-0 -z-0">
-          <Particles
-            id="tsparticles"
-            particlesLoaded={particlesLoaded}
-            options={{
-              fullScreen: {
-                enable: false,
-                zIndex: 0,
-              },
-              fpsLimit: 120,
-              interactivity: {
-                events: {
-                  onHover: {
-                    enable: true,
-                    mode: "attract",
-                  },
-                },
-                modes: {
-                  attract: {
-                    distance: 200,
-                    duration: 0.4,
-                  },
-                },
-              },
-              particles: {
-                color: {
-                  value: "#ffffff",
-                },
-                links: {
-                  enable: false,
-                },
-                move: {
-                  direction: "none",
-                  enable: true,
-                  outModes: {
-                    default: "bounce",
-                  },
-                  random: false,
-                  speed: 2.5,
-                  straight: false,
-                },
-                number: {
-                  density: {
-                    enable: false,
-                  },
-                  value: 10,
-                },
-                opacity: {
-                  value: 0.5,
-                },
-                shape: {
-                  type: "image",
-                  options: {
-                    image: [
-                      {
-                        src: "/images/presidents/milei.png",
-                      },
-                      {
-                        src: "/images/presidents/alberto.png",
-                      },
-                      {
-                        src: "/images/presidents/macri.png",
-                      },
-                      {
-                        src: "/images/presidents/cristina.png",
-                      },
-                      {
-                        src: "/images/presidents/menem.png",
-                      },
-                      {
-                        src: "/images/presidents/nestor.png",
-                      },
-                      {
-                        src: "/images/presidents/peron.png",
-                      },
-                      {
-                        src: "/images/presidents/trump.png",
-                      },
-                    ],
-                  },
-                },
-                size: {
-                  value: { min: 30, max: 30 },
-                },
-                rotate: {
-                  value: { min: 0, max: 360 },
-                  animation: {
-                    enable: true,
-                    speed: 10,
-                    sync: true,
-                  },
-                },
-              },
-              detectRetina: true,
-            }}
-            className="absolute inset-0 w-full h-full"
-          />
-        </div>
-      )}
+      <ParticlesBackground />
 
       {/* Main Hero Card */}
       <div className="relative z-10 w-full max-w-xl mx-4 sm:mx-6 lg:mx-8 pointer-events-none">
@@ -159,7 +49,7 @@ const HeroSection = ({ searchQuery, setSearchQuery }: HeroSectionProps) => {
           </h1>
 
           {/* Search Input */}
-          <div className="relative mb-6">
+          <form onSubmit={handleSearchSubmit} className="relative mb-6">
             <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
               <Search className="w-5 h-5 text-gray-400" />
             </div>
@@ -170,7 +60,7 @@ const HeroSection = ({ searchQuery, setSearchQuery }: HeroSectionProps) => {
               onChange={handleSearchChange}
               className="w-full pl-12 pr-4 py-4 rounded-xl bg-white/90 border border-gray-200 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-primary/50 focus:border-brand-primary transition-all duration-200"
             />
-          </div>
+          </form>
 
           {/* Subtitle */}
           <p className="text-center text-gray-600 text-sm sm:text-base">
