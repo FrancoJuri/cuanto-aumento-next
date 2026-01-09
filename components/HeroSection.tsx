@@ -2,46 +2,33 @@
 
 import { Search } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
-
-interface FloatingCircle {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
-  color: string;
-  delay: number;
-}
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
+import type { Container, Engine } from "@tsparticles/engine";
 
 interface HeroSectionProps {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
 }
 
-const generateCircles = (): FloatingCircle[] => {
-  const colors = [
-    "bg-blue-400/30",
-    "bg-purple-400/30",
-    "bg-pink-400/30",
-    "bg-cyan-400/30",
-    "bg-indigo-400/30",
-  ];
-
-  return Array.from({ length: 6 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 80 + 40,
-    color: colors[i % colors.length],
-    delay: i * 1.5,
-  }));
-};
-
 const HeroSection = ({ searchQuery, setSearchQuery }: HeroSectionProps) => {
-  const [circles, setCircles] = useState<FloatingCircle[]>([]);
+  const [init, setInit] = useState(false);
 
+  // this should be run only once per application lifetime
   useEffect(() => {
-    setCircles(generateCircles());
+    initParticlesEngine(async (engine: Engine) => {
+      // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
+      // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+      // starting from v2 you can add only the features you need reducing the bundle size
+      await loadSlim(engine);
+    }).then(() => {
+      setInit(true);
+    });
   }, []);
+
+  const particlesLoaded = async (container?: Container): Promise<void> => {
+    console.log(container);
+  };
 
   const handleSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,27 +38,121 @@ const HeroSection = ({ searchQuery, setSearchQuery }: HeroSectionProps) => {
   );
 
   return (
-    <section className="relative min-h-[60vh] md:min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-100 via-blue-50/50 to-slate-100">
-      {/* Floating Circles Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {circles.map((circle) => (
-          <div
-            key={circle.id}
-            className={`floating-circle absolute rounded-full blur-2xl ${circle.color}`}
-            style={{
-              left: `${circle.x}%`,
-              top: `${circle.y}%`,
-              width: `${circle.size}px`,
-              height: `${circle.size}px`,
-              animationDelay: `${circle.delay}s`,
-            }}
-          />
-        ))}
+    <section className="relative min-h-[60vh] md:min-h-[70vh] flex items-center justify-center overflow-hidden">
+      {/* Base Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-blue-50/50 to-slate-100 -z-30" />
+
+      {/* Background Gradient Blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-20">
+        <div className="absolute -top-[10%] -left-[10%] w-96 h-96 bg-gradient-to-br from-sky-400/40 to-blue-400/40 rounded-full blur-3xl opacity-80" />
+        <div className="absolute top-[20%] -right-[5%] w-80 h-80 bg-gradient-to-bl from-amber-300/30 to-yellow-400/30 rounded-full blur-3xl opacity-80" />
+        <div className="absolute -bottom-[10%] left-[30%] w-[35rem] h-[35rem] bg-gradient-to-tr from-blue-300/40 to-sky-300/40 rounded-full blur-3xl opacity-80" />
       </div>
 
+      {init && (
+        <div className="absolute inset-0 -z-0">
+          <Particles
+            id="tsparticles"
+            particlesLoaded={particlesLoaded}
+            options={{
+              fullScreen: {
+                enable: false,
+                zIndex: 0,
+              },
+              fpsLimit: 120,
+              interactivity: {
+                events: {
+                  onHover: {
+                    enable: true,
+                    mode: "attract",
+                  },
+                },
+                modes: {
+                  attract: {
+                    distance: 200,
+                    duration: 0.4,
+                  },
+                },
+              },
+              particles: {
+                color: {
+                  value: "#ffffff",
+                },
+                links: {
+                  enable: false,
+                },
+                move: {
+                  direction: "none",
+                  enable: true,
+                  outModes: {
+                    default: "bounce",
+                  },
+                  random: false,
+                  speed: 2.5,
+                  straight: false,
+                },
+                number: {
+                  density: {
+                    enable: false,
+                  },
+                  value: 10,
+                },
+                opacity: {
+                  value: 0.5,
+                },
+                shape: {
+                  type: "image",
+                  options: {
+                    image: [
+                      {
+                        src: "/images/presidents/milei.png",
+                      },
+                      {
+                        src: "/images/presidents/alberto.png",
+                      },
+                      {
+                        src: "/images/presidents/macri.png",
+                      },
+                      {
+                        src: "/images/presidents/cristina.png",
+                      },
+                      {
+                        src: "/images/presidents/menem.png",
+                      },
+                      {
+                        src: "/images/presidents/nestor.png",
+                      },
+                      {
+                        src: "/images/presidents/peron.png",
+                      },
+                      {
+                        src: "/images/presidents/trump.png",
+                      },
+                    ],
+                  },
+                },
+                size: {
+                  value: { min: 30, max: 30 },
+                },
+                rotate: {
+                  value: { min: 0, max: 360 },
+                  animation: {
+                    enable: true,
+                    speed: 10,
+                    sync: true,
+                  },
+                },
+              },
+              detectRetina: true,
+            }}
+            className="absolute inset-0 w-full h-full"
+          />
+        </div>
+      )}
+
       {/* Main Hero Card */}
-      <div className="relative z-10 w-full max-w-xl mx-4 sm:mx-6 lg:mx-8">
-        <div className="liquid-glass-container rounded-3xl p-8 sm:p-10 md:p-12 bg-white/80 shadow-xl">
+      <div className="relative z-10 w-full max-w-xl mx-4 sm:mx-6 lg:mx-8 pointer-events-none">
+        <div className="liquid-glass-container rounded-3xl p-8 sm:p-10 md:p-12 bg-white/80 backdrop-blur-xl border border-white/50 shadow-2xl pointer-events-auto transition-all duration-300">
           {/* Title */}
           <h1 className="font-[family-name:var(--font-outfit)] text-4xl sm:text-5xl md:text-6xl font-bold text-center text-gray-900 mb-6">
             ¿Cuanto Aumento?

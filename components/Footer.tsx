@@ -62,7 +62,7 @@ const Footer = () => {
             </Link>
           </p>
           <p className="text-sm text-gray-500">
-            © {currentYear} cuantoaumento. Ningún derecho reservado.
+            © {currentYear} cuantoaumento. Open source project.
           </p>
         </div>
       </div>
