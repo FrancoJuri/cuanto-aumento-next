@@ -3,7 +3,7 @@
 import { Search } from "lucide-react";
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import ParticlesBackground from "./ParticlesBackground";
+import ParticlesBackground from "../common/ParticlesBackground";
 
 const HeroSection = () => {
   const router = useRouter();

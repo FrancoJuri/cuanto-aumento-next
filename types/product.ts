@@ -37,3 +37,13 @@ export interface ProductDetail {
 
 // Time range filter options for charts
 export type TimeRange = "7D" | "1M" | "3M" | "6M" | "1A";
+
+// Category types for category pages
+export interface Category {
+  slug: string;
+  name: string;
+  description?: string;
+  icon?: string;
+  productCount?: number;
+}
+

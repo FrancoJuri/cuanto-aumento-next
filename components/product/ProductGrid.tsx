@@ -1,5 +1,5 @@
 import ProductCard, { Product } from "./ProductCard";
-import Pagination from "./Pagination";
+import Pagination from "../common/Pagination";
 
 interface ProductGridProps {
   products: Product[];
