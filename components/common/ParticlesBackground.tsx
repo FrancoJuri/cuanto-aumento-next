@@ -37,8 +37,8 @@ const ParticlesBackground = memo(function ParticlesBackground() {
         },
         modes: {
           attract: {
-            distance: 200,
-            duration: 0.4,
+            distance: 1000,
+            duration: 1,
           },
         },
       },
