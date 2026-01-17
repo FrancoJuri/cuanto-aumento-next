@@ -8,6 +8,7 @@ export interface Product {
   supermarketCount: number;
   imageUrl?: string;
   slug: string;
+  minPrice?: number;
 }
 
 interface ProductCardProps {
