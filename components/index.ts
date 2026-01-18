@@ -23,5 +23,3 @@ export { default as ProductDescription } from "./product/ProductDescription";
 export { default as CategoryHero } from "./category/CategoryHero";
 export { default as CategoryPageContent } from "./category/CategoryPageContent";
 
-// Types
-export type { Product } from "./product/ProductCard";

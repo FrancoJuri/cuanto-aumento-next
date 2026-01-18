@@ -6,12 +6,12 @@ import {
   ProductGrid,
   Footer,
 } from "@/components";
-import type { Product } from "@/components";
+import type { ApiProduct } from "@/lib/api";
 import type { Category } from "@/types";
 
 interface CategoryPageContentProps {
   category: Category;
-  products: Product[];
+  products: ApiProduct[];
 }
 
 export default function CategoryPageContent({

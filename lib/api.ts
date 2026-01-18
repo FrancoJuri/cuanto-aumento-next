@@ -11,7 +11,6 @@ const api = axios.create({
   },
 });
 
-// Tipos para las respuestas de la API
 export interface SupermarketPrice {
   supermarket: string;
   price: number;

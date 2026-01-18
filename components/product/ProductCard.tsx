@@ -1,23 +1,16 @@
 import { Bookmark } from "lucide-react";
 import Link from "next/link";
-
-export interface Product {
-  id: string;
-  name: string;
-  brand: string;
-  supermarketCount: number;
-  imageUrl?: string;
-  slug: string;
-  minPrice?: number;
-}
+import { ApiProduct } from "@/lib/api";
 
 interface ProductCardProps {
-  product: Product;
+  product: ApiProduct;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const supermarketCount = product.prices.length;
+
   return (
-    <Link href={`/producto/${product.slug}`} className="block group">
+    <Link href={`/producto/${product.ean}`} className="block group">
       <article className="bg-white rounded-xl border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-gray-300 hover:-translate-y-1">
         {/* Image Section */}
         <div className="relative aspect-[4/5] bg-gradient-to-br from-gray-50 to-gray-100">
@@ -34,12 +27,20 @@ const ProductCard = ({ product }: ProductCardProps) => {
             <Bookmark className="w-4 h-4" />
           </button>
 
-          {/* Product Name Overlay */}
-          <div className="absolute inset-0 flex items-center justify-center p-4">
-            <p className="text-gray-600 text-center font-medium line-clamp-3">
-              {product.name}
-            </p>
-          </div>
+          {/* Product Image or Name Overlay */}
+          {product.image_url ? (
+            <img
+              src={product.image_url}
+              alt={product.name}
+              className="absolute inset-0 w-full h-full object-contain p-4"
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center p-4">
+              <p className="text-gray-600 text-center font-medium line-clamp-3">
+                {product.name}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Content Section */}
@@ -56,8 +57,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
           {/* Supermarket Count */}
           <p className="text-xs text-brand-primary font-medium">
-            Precios en {product.supermarketCount} supermercado
-            {product.supermarketCount !== 1 ? "s" : ""}
+            Precios en {supermarketCount} supermercado
+            {supermarketCount !== 1 ? "s" : ""}
           </p>
         </div>
       </article>

@@ -6,27 +6,13 @@ import {
   CategoriesSection,
   ProductGrid,
   Footer,
-  Product,
 } from "@/components";
 import { getProducts, getProductsByCategory, ApiProduct, Pagination } from "@/lib/api";
-
-// Función para transformar ApiProduct a Product del componente
-function transformApiProduct(apiProduct: ApiProduct): Product {
-  return {
-    id: apiProduct.ean,
-    name: apiProduct.name,
-    brand: apiProduct.brand || "SIN MARCA",
-    supermarketCount: apiProduct.prices?.length || 0,
-    slug: apiProduct.ean, // Usamos EAN como slug por ahora
-    imageUrl: apiProduct.image_url || undefined,
-    minPrice: apiProduct.min_price || undefined,
-  };
-}
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("todos");
   const [currentPage, setCurrentPage] = useState(1);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ApiProduct[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -50,8 +36,7 @@ export default function Home() {
           });
         }
         
-        const transformedProducts = response.products.map(transformApiProduct);
-        setProducts(transformedProducts);
+        setProducts(response.products);
         setPagination(response.pagination);
       } catch (err) {
         console.error("Error fetching products:", err);
@@ -116,4 +101,3 @@ export default function Home() {
     </div>
   );
 }
-
