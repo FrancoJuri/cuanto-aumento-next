@@ -4,11 +4,13 @@ export { default as Footer } from "./common/Footer";
 export { default as Pagination } from "./common/Pagination";
 export { default as ParticlesBackground } from "./common/ParticlesBackground";
 export { default as NotFoundContent } from "./common/NotFoundContent";
+export { LoadingSpinner } from "./common/LoadingSpinner";
 
 // Home components
 export { default as HeroSection } from "./home/HeroSection";
 export { default as CategoriesSection } from "./home/CategoriesSection";
 export { ProductsClient } from "./home/ProductsClient";
+export { default as ProductsSection } from "./home/ProductsSection";
 
 // Product components
 export { default as ProductCard } from "./product/ProductCard";
@@ -22,5 +24,5 @@ export { default as ProductDescription } from "./product/ProductDescription";
 
 // Category components
 export { default as CategoryHero } from "./category/CategoryHero";
-export { default as CategoryPageContent } from "./category/CategoryPageContent";
+export { default as CategoryProductsSection } from "./category/CategoryProductsSection";
 

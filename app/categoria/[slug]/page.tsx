@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
-import { CategoryPageContent, NotFoundContent } from "@/components";
-import { getProductsByCategory, getCategories } from "@/lib/api";
+import { Suspense } from "react";
+import { 
+  Header, 
+  Footer, 
+  CategoryHero, 
+  CategoryProductsSection, 
+  NotFoundContent, 
+  LoadingSpinner 
+} from "@/components";
+import { getCategories } from "@/lib/api";
 import type { Category } from "@/types";
 
 interface CategoryPageProps {
@@ -107,32 +115,49 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     );
   }
 
-  // Convert slug back to category name for API
-  const categoryName = info.name;
+  const categoryForHero = {
+    slug,
+    ...info,
+    // productCount is undefined initially, loaded via Suspense
+  };
 
-  try {
-    const { products, pagination } = await getProductsByCategory({
-      category: categoryName,
-      page: pageNumber,
-      limit: 15,
-    });
+  return (
+    <div className="min-h-screen bg-bg-main">
+      {/* Header */}
+      <Header />
 
-    const category: Category = {
-      slug,
-      ...info,
-      productCount: pagination.total,
-    };
+      {/* Category Hero (Static Content) */}
+      <CategoryHero category={categoryForHero} />
 
-    return <CategoryPageContent category={category} products={products} pagination={pagination} />;
-  } catch (error) {
-    console.error("Error fetching category products:", error);
-    
-    // Return empty state on error
-    const category: Category = {
-      slug,
-      ...info,
-    };
+      {/* Breadcrumb */}
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4" aria-label="Breadcrumb">
+        <ol className="flex items-center space-x-2 text-sm text-gray-500">
+          <li>
+            <a href="/" className="hover:text-brand-primary transition-colors">
+              Inicio
+            </a>
+          </li>
+          <li>
+            <span className="mx-2">/</span>
+          </li>
+          <li>
+            <span className="text-gray-900 font-medium">{info.name}</span>
+          </li>
+        </ol>
+      </nav>
 
-    return <CategoryPageContent category={category} products={[]} pagination={{ page: 1, limit: 15, total: 0, totalPages: 1 }} />;
-  }
+      {/* Products Section with Suspense */}
+      <Suspense fallback={<LoadingSpinner />} key={pageNumber}>
+        <CategoryProductsSection 
+          categoryName={info.name}
+          categorySlug={slug}
+          categoryInfo={info}
+          page={pageNumber} 
+        />
+      </Suspense>
+
+      {/* Footer */}
+      <Footer />
+    </div>
+  );
 }
