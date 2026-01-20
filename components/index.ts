@@ -8,6 +8,7 @@ export { default as NotFoundContent } from "./common/NotFoundContent";
 // Home components
 export { default as HeroSection } from "./home/HeroSection";
 export { default as CategoriesSection } from "./home/CategoriesSection";
+export { ProductsClient } from "./home/ProductsClient";
 
 // Product components
 export { default as ProductCard } from "./product/ProductCard";
