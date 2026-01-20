@@ -5,6 +5,7 @@ import type { Category } from "@/types";
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 // Map category slug to display info
@@ -89,8 +90,12 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   };
 }
 
-export default async function CategoryPage({ params }: CategoryPageProps) {
+export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const { slug } = await params;
+  const { page } = await searchParams;
+  const currentPage = typeof page === "string" ? parseInt(page) : 1;
+  const pageNumber = isNaN(currentPage) || currentPage < 1 ? 1 : currentPage;
+
   const info = categoryInfo[slug];
 
   if (!info) {
@@ -108,7 +113,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   try {
     const { products, pagination } = await getProductsByCategory({
       category: categoryName,
-      limit: 50,
+      page: pageNumber,
+      limit: 15,
     });
 
     const category: Category = {
@@ -117,7 +123,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       productCount: pagination.total,
     };
 
-    return <CategoryPageContent category={category} products={products} />;
+    return <CategoryPageContent category={category} products={products} pagination={pagination} />;
   } catch (error) {
     console.error("Error fetching category products:", error);
     
@@ -127,6 +133,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       ...info,
     };
 
-    return <CategoryPageContent category={category} products={[]} />;
+    return <CategoryPageContent category={category} products={[]} pagination={{ page: 1, limit: 15, total: 0, totalPages: 1 }} />;
   }
 }

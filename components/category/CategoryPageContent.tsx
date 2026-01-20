@@ -1,23 +1,37 @@
 "use client";
 
+import { useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Header,
   CategoryHero,
   ProductGrid,
   Footer,
 } from "@/components";
-import type { ApiProduct } from "@/lib/api";
+import type { ApiProduct, Pagination } from "@/lib/api";
 import type { Category } from "@/types";
 
 interface CategoryPageContentProps {
   category: Category;
   products: ApiProduct[];
+  pagination: Pagination;
 }
 
 export default function CategoryPageContent({
   category,
   products,
+  pagination,
 }: CategoryPageContentProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentPage = pagination.page;
+
+  const handlePageChange = useCallback((page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page.toString());
+    router.push(`/categoria/${category.slug}?${params.toString()}`);
+  }, [router, searchParams, category.slug]);
+
   return (
     <div className="min-h-screen bg-bg-main">
       {/* Header */}
@@ -60,8 +74,9 @@ export default function CategoryPageContent({
         {/* Product Grid */}
         <ProductGrid
           products={products}
-          currentPage={1}
-          totalPages={Math.ceil(products.length / 15) || 1}
+          currentPage={currentPage}
+          totalPages={pagination.totalPages}
+          onPageChange={handlePageChange}
         />
       </main>
 
