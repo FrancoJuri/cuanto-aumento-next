@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   CategoriesSection,
@@ -18,6 +18,24 @@ export function ProductsClient({ initialData, activeCategory = "todos" }: Produc
   const currentPage = Number(searchParams.get("page")) || 1;
 
   const { products, pagination } = initialData;
+  const productsSectionRef = useRef<HTMLDivElement>(null);
+  
+  // Use a ref to track if it's the first render to avoid scrolling on initial load
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    if (productsSectionRef.current) {
+      // Small timeout to ensure DOM is ready and layout is stable
+      setTimeout(() => {
+        productsSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  }, [currentPage]);
 
   const handleCategoryChange = useCallback((slug: string) => {
     if (slug === "todos") {
@@ -31,11 +49,11 @@ export function ProductsClient({ initialData, activeCategory = "todos" }: Produc
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", page.toString());
     
-    router.push(`/?${params.toString()}`);
+    router.push(`/?${params.toString()}`, { scroll: false });
   }, [router, searchParams]);
 
   return (
-    <>
+    <div ref={productsSectionRef} className="scroll-mt-24">
       {/* Categories Section */}
       <CategoriesSection
         activeCategory={activeCategory}
@@ -52,6 +70,6 @@ export function ProductsClient({ initialData, activeCategory = "todos" }: Produc
             onPageChange={handlePageChange}
         />
       </div>
-    </>
+    </div>
   );
 }
