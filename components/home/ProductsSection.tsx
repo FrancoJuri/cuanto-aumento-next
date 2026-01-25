@@ -6,10 +6,18 @@ interface ProductsSectionProps {
 }
 
 export default async function ProductsSection({ page }: ProductsSectionProps) {
-  // Fetch products on the server
-  const initialData = await getProducts({ page, limit: 15 });
+  let initialData = null;
+  let error = null;
+
+  try {
+    // Fetch products on the server
+    initialData = await getProducts({ page, limit: 15 });
+  } catch (e) {
+    console.error("Error fetching products:", e);
+    error = "No se pudieron cargar los productos. Por favor intenta nuevamente más tarde.";
+  }
 
   return (
-    <ProductsClient initialData={initialData} />
+    <ProductsClient initialData={initialData} error={error} />
   );
 }
