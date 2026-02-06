@@ -1,6 +1,7 @@
+import { cache } from "react";
 import axios from "axios";
 
-// Base URL de la API - cambiar en producción
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
 
 const api = axios.create({
@@ -102,14 +103,35 @@ export async function getCategories(): Promise<CategoriesResponse> {
   return response.data;
 }
 
-export async function getProductByEan(ean: string) {
-  const response = await api.get(`/products/${ean}`);
-  return response.data;
-}
-
 export async function getCheapestForProduct(ean: string) {
   const response = await api.get(`/products/${ean}/cheapest`);
   return response.data;
 }
+
+
+
+export interface ApiPriceHistoryItem {
+  date: string;
+  price: number;
+  list_price: number | null;
+}
+
+export interface ApiSupermarket {
+  name: string;
+  price: number;
+  list_price: number | null;
+  price_history: ApiPriceHistoryItem[];
+}
+
+export interface ApiProductDetail extends Omit<ApiProduct, "prices"> {
+  description?: string;
+  supermarkets: ApiSupermarket[];
+}
+
+
+export const getProductBySlug = cache(async (slug: string): Promise<ApiProductDetail> => {
+  const response = await api.get<ApiProductDetail>(`/products/${slug}`);
+  return response.data;
+});
 
 export default api;

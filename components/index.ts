@@ -21,6 +21,7 @@ export { default as PriceEvolutionChart } from "./product/PriceEvolutionChart";
 export { default as SupermarketPriceCard } from "./product/SupermarketPriceCard";
 export { default as SupermarketChartModal } from "./product/SupermarketChartModal";
 export { default as ProductDescription } from "./product/ProductDescription";
+export { default as ProductDetailClient } from "./product/ProductDetailClient";
 
 // Category components
 export { default as CategoryHero } from "./category/CategoryHero";

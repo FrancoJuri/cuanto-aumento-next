@@ -2,8 +2,8 @@
 
 import { useState, useMemo } from "react";
 import {
-  BarChart,
-  Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -117,7 +117,7 @@ const PriceEvolutionChart = ({
       <div className="h-64">
         {chartData.length > 0 ? (
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart
+            <LineChart
               data={chartData}
               margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
             >
@@ -150,17 +150,19 @@ const PriceEvolutionChart = ({
                   boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
                 }}
               />
-              <Bar
+              <Line
+                type="monotone"
                 dataKey="price"
-                fill="var(--brand-primary)"
-                radius={[4, 4, 0, 0]}
-                maxBarSize={50}
+                stroke="var(--brand-primary)"
+                strokeWidth={2}
+                dot={{ fill: "var(--brand-primary)", strokeWidth: 0, r: 4 }}
+                activeDot={{ r: 6, fill: "var(--brand-primary-dark)" }}
               />
-            </BarChart>
+            </LineChart>
           </ResponsiveContainer>
         ) : (
           <div className="h-full flex items-center justify-center text-gray-500">
-            No hay datos disponibles para este período
+            No hay datos históricos disponibles para este producto
           </div>
         )}
       </div>

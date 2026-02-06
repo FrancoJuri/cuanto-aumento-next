@@ -8,7 +8,10 @@ const ProductDescription = ({ description }: ProductDescriptionProps) => {
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-6">
       <h2 className="text-lg font-semibold text-gray-900 mb-4">Descripción</h2>
-      <p className="text-gray-600 leading-relaxed">{description}</p>
+      <div
+        className="text-gray-600 leading-relaxed prose prose-sm max-w-none"
+        dangerouslySetInnerHTML={{ __html: description }}
+      />
     </div>
   );
 };

@@ -1,9 +1,8 @@
-import { TrendingUp, TrendingDown, Share2, Bell } from "lucide-react";
+import { TrendingUp, TrendingDown, Share2 } from "lucide-react";
 import type { ProductDetail } from "@/types";
 
 interface ProductInfoCardProps {
   product: ProductDetail;
-  onCreateAlert?: () => void;
   onShare?: () => void;
 }
 
@@ -18,7 +17,6 @@ const formatPrice = (price: number): string => {
 
 const ProductInfoCard = ({
   product,
-  onCreateAlert,
   onShare,
 }: ProductInfoCardProps) => {
   const priceChange = product.priceChange ?? 0;
@@ -97,18 +95,11 @@ const ProductInfoCard = ({
         {/* Action Buttons */}
         <div className="flex gap-3">
           <button
-            onClick={onCreateAlert}
-            className="flex-1 flex items-center justify-center gap-2 bg-brand-secondary hover:bg-brand-secondary-dark text-white font-semibold py-3 px-4 rounded-xl transition-colors"
-          >
-            <Bell className="w-4 h-4" />
-            Crear Alerta
-          </button>
-          <button
             onClick={onShare}
-            className="p-3 border border-gray-200 rounded-xl text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-colors"
-            aria-label="Compartir"
+            className="flex-1 flex items-center justify-center gap-2 bg-brand-primary hover:bg-brand-primary-dark text-white font-semibold py-3 px-4 rounded-xl transition-colors"
           >
             <Share2 className="w-5 h-5" />
+            Compartir
           </button>
         </div>
       </div>
