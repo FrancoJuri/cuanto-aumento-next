@@ -72,7 +72,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           {/* Right Content - Charts & Prices */}
           <div className="lg:col-span-8 space-y-6">
             {/* Price Evolution Chart */}
-            <PriceEvolutionChart priceHistory={product.priceHistory} />
+            <PriceEvolutionChart currentPrice={product.lowestPrice} />
 
             {/* Supermarket Prices */}
             <div className="bg-white rounded-xl border border-gray-200 p-6">
