@@ -1,5 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { CATEGORY_CONFIG } from "@/lib/categories";
 
 interface ProductDetailHeaderProps {
   categoryName: string;
@@ -12,6 +13,11 @@ const ProductDetailHeader = ({
   categorySlug,
   productName,
 }: ProductDetailHeaderProps) => {
+  const isKnownCategory = categorySlug in CATEGORY_CONFIG;
+  const categoryLink = isKnownCategory 
+    ? `/categoria/${categorySlug}` 
+    : `/buscar?q=${encodeURIComponent(categoryName)}`;
+
   return (
     <nav className="mb-6">
       <ol className="flex items-center gap-2 text-sm flex-wrap">
@@ -27,7 +33,7 @@ const ProductDetailHeader = ({
         <li className="text-gray-300">/</li>
         <li>
           <Link
-            href={`/categoria/${categorySlug}`}
+            href={categoryLink}
             className="text-gray-500 hover:text-brand-primary transition-colors"
           >
             {categoryName}

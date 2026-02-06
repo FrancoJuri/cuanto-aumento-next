@@ -14,6 +14,7 @@ export interface SupermarketPrice {
   priceChange?: number; // percentage change
   lastUpdated: string; // relative time string or ISO date
   isBestPrice: boolean;
+  productUrl?: string;
   priceHistory: PriceHistory[];
 }
 

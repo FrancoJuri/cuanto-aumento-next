@@ -9,68 +9,23 @@ import {
   LoadingSpinner 
 } from "@/components";
 import { getCategories } from "@/lib/api";
-import type { Category } from "@/types";
+import { CATEGORY_CONFIG } from "@/lib/categories";
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-// Map category slug to display info
-const categoryInfo: Record<string, Omit<Category, "slug">> = {
-  bebidas: {
-    name: "Bebidas",
-    description: "Gaseosas, aguas, jugos, cervezas y más bebidas de supermercados argentinos.",
-    icon: "🥤",
-  },
-  lacteos: {
-    name: "Lácteos",
-    description: "Leches, yogures, quesos, manteca y productos lácteos frescos.",
-    icon: "🥛",
-  },
-  almacen: {
-    name: "Almacén",
-    description: "Productos de almacén, conservas, pastas, arroz y más.",
-    icon: "🏪",
-  },
-  infusiones: {
-    name: "Infusiones",
-    description: "Yerba mate, café, té y todas las infusiones.",
-    icon: "🧉",
-  },
-  "frutas-y-verduras": {
-    name: "Frutas y Verduras",
-    description: "Frutas y verduras frescas de temporada.",
-    icon: "🍎",
-  },
-  panaderia: {
-    name: "Panadería",
-    description: "Pan, facturas, galletitas y productos de panadería.",
-    icon: "🥖",
-  },
-  limpieza: {
-    name: "Limpieza",
-    description: "Productos de limpieza para el hogar.",
-    icon: "🧹",
-  },
-};
-
 // Generate static params for known categories
 export async function generateStaticParams() {
-  try {
-    const { categories } = await getCategories();
-    return categories.map((cat) => ({
-      slug: cat.category.toLowerCase().replace(/\s+/g, "-"),
-    }));
-  } catch {
-    return Object.keys(categoryInfo).map((slug) => ({ slug }));
-  }
+  // Use the keys from CATEGORY_CONFIG as the source of truth
+  return Object.keys(CATEGORY_CONFIG).map((slug) => ({ slug }));
 }
 
 // Generate dynamic metadata for SEO
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const info = categoryInfo[slug];
+  const info = CATEGORY_CONFIG[slug];
 
   if (!info) {
     return {
@@ -104,7 +59,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   const currentPage = typeof page === "string" ? parseInt(page) : 1;
   const pageNumber = isNaN(currentPage) || currentPage < 1 ? 1 : currentPage;
 
-  const info = categoryInfo[slug];
+  const info = CATEGORY_CONFIG[slug];
 
   if (!info) {
     return (

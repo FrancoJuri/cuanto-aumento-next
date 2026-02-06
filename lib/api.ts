@@ -120,6 +120,7 @@ export interface ApiSupermarket {
   name: string;
   price: number;
   list_price: number | null;
+  product_url?: string;
   price_history: ApiPriceHistoryItem[];
 }
 
