@@ -23,7 +23,7 @@ const ProductInfoCard = ({
   const isPositiveChange = priceChange > 0;
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden sticky top-4">
+    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden sticky top-24">
       {/* Product Image Placeholder */}
       <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-6">
         {product.imageUrl ? (
