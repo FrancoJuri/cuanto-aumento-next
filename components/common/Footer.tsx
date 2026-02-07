@@ -1,69 +1,95 @@
-import { ShoppingCart, Twitter, Instagram, Github } from "lucide-react";
+import { ShoppingCart, Twitter, Instagram, Github, Heart } from "lucide-react";
 import Link from "next/link";
+import ParticlesBackground from "./ParticlesBackground";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-100 border-t border-gray-200 mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Logo & Domain */}
-        <div className="flex flex-col items-center mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <ShoppingCart className="w-6 h-6 text-gray-700" />
-            <span className="font-semibold text-lg text-gray-900">
-              cuantoaumento.com.ar
-            </span>
+    <footer className="relative mt-12 overflow-hidden pt-12 pb-6 bg-gradient-to-b from-slate-50 to-slate-100 border-t border-slate-200">
+      
+      {/* Background Gradient Blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-20">
+        <div className="absolute -bottom-[20%] -left-[10%] w-[40rem] h-[40rem] bg-gradient-to-tr from-blue-400/20 to-purple-400/20 rounded-full blur-3xl opacity-60 animate-pulse" />
+        <div className="absolute top-[10%] -right-[10%] w-96 h-96 bg-gradient-to-bl from-amber-200/20 to-orange-300/20 rounded-full blur-3xl opacity-50" />
+      </div>
+
+      {/* Particles with reduced quantity for Footer */}
+      <ParticlesBackground id="footer-particles" quantity={4} />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="liquid-glass-container rounded-3xl p-8 sm:p-12 border border-white/50 shadow-xl bg-white/70 backdrop-blur-md">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            
+            {/* Brand Section */}
+            <div className="flex flex-col items-center md:items-start space-y-4">
+              <div className="flex items-center gap-3 group">
+                <div className="p-3 bg-brand-primary/10 rounded-xl group-hover:scale-110 transition-transform duration-300">
+                  <ShoppingCart className="w-8 h-8 text-brand-primary" />
+                </div>
+                <span className="font-[family-name:var(--font-outfit)] font-bold text-2xl text-gray-900 tracking-tight">
+                  cuantoaumento.com.ar
+                </span>
+              </div>
+              <p className="text-gray-600 text-center md:text-left max-w-sm">
+                Monitoreando la inflación con transparencia y datos reales. Tu guía de precios en Argentina.
+              </p>
+            </div>
+
+            {/* Social & Links */}
+            <div className="flex flex-col items-center md:items-end space-y-6">
+              <h3 className="font-semibold text-gray-900 text-lg">Conectemos</h3>
+              <div className="flex items-center gap-4">
+                <Link
+                  href="https://twitter.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 rounded-full bg-white/50 hover:bg-white hover:text-blue-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-gray-600"
+                >
+                  <Twitter className="w-5 h-5" />
+                </Link>
+                <Link
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 rounded-full bg-white/50 hover:bg-white hover:text-pink-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-gray-600"
+                >
+                  <Instagram className="w-5 h-5" />
+                </Link>
+                <Link
+                  href="https://github.com/FrancoJuri/cuanto-aumento-next"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 rounded-full bg-white/50 hover:bg-white hover:text-gray-900 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-gray-600"
+                >
+                  <Github className="w-5 h-5" />
+                </Link>
+              </div>
+            </div>
           </div>
 
-          {/* Social Links */}
-          <div className="flex items-center gap-6">
-            <Link
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              <Twitter className="w-4 h-4" />
-              <span className="text-sm">Twitter</span>
-            </Link>
-            <Link
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              <Instagram className="w-4 h-4" />
-              <span className="text-sm">Instagram</span>
-            </Link>
-            <Link
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              <Github className="w-4 h-4" />
-              <span className="text-sm">GitHub</span>
-            </Link>
-          </div>
-        </div>
+          {/* Divider */}
+          <div className="my-8 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent opacity-50" />
 
-        {/* Bottom Section */}
-        <div className="border-t border-gray-200 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-500">
-            Desarrollado por{" "}
-            <Link
-              href="https://francojuri.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-brand-primary hover:underline"
-            >
-              Franco Juri
-            </Link>
-          </p>
-          <p className="text-sm text-gray-500">
-            © {currentYear} cuantoaumento. Open source project.
-          </p>
+          {/* Bottom Section */}
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500 font-medium">
+            <div className="flex items-center gap-1">
+              <span>Desarrollado con</span>
+              <Heart className="w-4 h-4 text-red-500 animate-pulse fill-red-500" />
+              <span>por</span>
+              <Link
+                href="https://francojuri.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-brand-primary hover:text-brand-primary-dark hover:underline transition-colors font-semibold"
+              >
+                Franco Juri
+              </Link>
+            </div>
+            <p>
+              © {currentYear} cuantoaumento. Open Source.
+            </p>
+          </div>
         </div>
       </div>
     </footer>

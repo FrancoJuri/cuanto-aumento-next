@@ -23,6 +23,9 @@ export const metadata: Metadata = {
     "inflación",
     "comparador",
   ],
+  icons: {
+    icon: "/cuanto-aumento-logo.png",
+  },
 };
 
 export default function RootLayout({

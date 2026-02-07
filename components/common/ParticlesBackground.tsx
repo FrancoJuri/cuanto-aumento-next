@@ -6,7 +6,13 @@ import { loadSlim } from "@tsparticles/slim";
 import type { Container, Engine } from "@tsparticles/engine";
 
 
-const ParticlesBackground = memo(function ParticlesBackground() {
+const ParticlesBackground = memo(function ParticlesBackground({ 
+  id = "tsparticles",
+  quantity = 10 
+}: { 
+  id?: string;
+  quantity?: number;
+}) {
   const [init, setInit] = useState(false);
 
   useEffect(() => {
@@ -63,7 +69,7 @@ const ParticlesBackground = memo(function ParticlesBackground() {
           density: {
             enable: false,
           },
-          value: 10,
+          value: quantity,
         },
         opacity: {
           value: 0.5,
@@ -133,7 +139,7 @@ const ParticlesBackground = memo(function ParticlesBackground() {
   return (
     <div className="absolute inset-0 -z-0">
       <Particles
-        id="tsparticles"
+        id={id}
         particlesLoaded={particlesLoaded}
         options={options}
         className="absolute inset-0 w-full h-full"
