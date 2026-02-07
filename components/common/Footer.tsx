@@ -1,4 +1,4 @@
-import { ShoppingCart, Twitter, Instagram, Github, Heart } from "lucide-react";
+import { ShoppingCart, Instagram, Github, Heart, Linkedin, Twitter } from "lucide-react";
 import Link from "next/link";
 import ParticlesBackground from "./ParticlesBackground";
 
@@ -41,15 +41,23 @@ const Footer = () => {
               <h3 className="font-semibold text-gray-900 text-lg">Conectemos</h3>
               <div className="flex items-center gap-4">
                 <Link
-                  href="https://twitter.com"
+                  href="https://github.com/FrancoJuri"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 rounded-full bg-white/50 hover:bg-white hover:text-blue-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-gray-600"
+                  className="p-3 rounded-full bg-white/50 hover:bg-white hover:text-gray-900 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-gray-600"
                 >
-                  <Twitter className="w-5 h-5" />
+                  <Github className="w-5 h-5" />
                 </Link>
                 <Link
-                  href="https://instagram.com"
+                  href="https://x.com/francojuri_dev"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 rounded-full bg-white/50 hover:bg-white hover:text-gray-900 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-gray-600"
+                >
+                  <Twitter className="w-5 h-5" />
+                </Link> 
+                <Link
+                  href="https://www.instagram.com/francojuri.web/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-3 rounded-full bg-white/50 hover:bg-white hover:text-pink-500 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-gray-600"
@@ -57,12 +65,12 @@ const Footer = () => {
                   <Instagram className="w-5 h-5" />
                 </Link>
                 <Link
-                  href="https://github.com/FrancoJuri/cuanto-aumento-next"
+                  href="https://www.linkedin.com/in/francojuri/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 rounded-full bg-white/50 hover:bg-white hover:text-gray-900 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-gray-600"
+                  className="p-3 rounded-full bg-white/50 hover:bg-white hover:text-blue-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-gray-600"
                 >
-                  <Github className="w-5 h-5" />
+                  <Linkedin className="w-5 h-5" />
                 </Link>
               </div>
             </div>
@@ -87,7 +95,7 @@ const Footer = () => {
               </Link>
             </div>
             <p>
-              © {currentYear} cuantoaumento. Open Source.
+              © {currentYear} cuantoaumento. <Link href="https://github.com/FrancoJuri/cuanto-aumento-next" target="_blank" rel="noopener noreferrer">Open Source</Link>
             </p>
           </div>
         </div>
