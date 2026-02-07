@@ -45,8 +45,12 @@ function SearchPageContent() {
   };
 
   const handleCategoryChange = useCallback((slug: string) => {
-    setActiveCategory(slug);
-  }, []);
+    if (slug === "todos") {
+      router.push("/");
+    } else {
+      router.push(`/categoria/${slug}`);
+    }
+  }, [router]);
 
   const handlePageChange = useCallback(
     (page: number) => {

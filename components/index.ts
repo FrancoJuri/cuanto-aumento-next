@@ -8,7 +8,7 @@ export { LoadingSpinner } from "./common/LoadingSpinner";
 
 // Home components
 export { default as HeroSection } from "./home/HeroSection";
-export { default as CategoriesSection } from "./home/CategoriesSection";
+export { default as CategoriesSection } from "./common/CategoriesSection";
 export { ProductsClient } from "./home/ProductsClient";
 export { default as ProductsSection } from "./home/ProductsSection";
 

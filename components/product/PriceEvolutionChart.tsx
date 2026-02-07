@@ -285,7 +285,7 @@ const PriceEvolutionChart = ({
         </svg>
         <div className="text-sm text-gray-600 space-y-1">
             <p><strong className="text-gray-900">Nota importante:</strong> Este gráfico es una <strong>estimación teórica</strong>.</p>
-            <p>Se calcula proyectando el precio actual hacia el pasado utilizando los índices de inflación oficiales (IPC) de Argentina. No representa el precio real histórico del producto en góndola, sino cuánto habría costado hoy ajustado por inflación.</p>
+            <p>Se calcula proyectando el precio actual hacia el pasado utilizando los índices de inflación oficiales (IPC) de Argentina. No representa el precio real histórico del producto en góndola, sino cuánto habría costado ajustado por inflación.</p>
         </div>
       </div>
     </div>

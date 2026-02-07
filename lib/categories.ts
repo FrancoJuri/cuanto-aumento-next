@@ -16,11 +16,6 @@ export const CATEGORY_CONFIG: Record<string, Omit<Category, "slug">> = {
     description: "Productos de almacén, conservas, pastas, arroz y más.",
     icon: "🏪",
   },
-  infusiones: {
-    name: "Infusiones",
-    description: "Yerba mate, café, té y todas las infusiones.",
-    icon: "🧉",
-  },
   "frutas-y-verduras": {
     name: "Frutas y Verduras",
     description: "Frutas y verduras frescas de temporada.",
