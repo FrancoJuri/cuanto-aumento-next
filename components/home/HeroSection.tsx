@@ -45,7 +45,7 @@ const HeroSection = () => {
         <div className="liquid-glass-container rounded-3xl p-8 sm:p-10 md:p-12 bg-white/80 backdrop-blur-xl border border-white/50 shadow-2xl pointer-events-auto transition-all duration-300">
           {/* Title */}
           <h1 className="font-[family-name:var(--font-outfit)] text-4xl sm:text-5xl md:text-6xl font-bold text-center text-gray-900 mb-6">
-            ¿Cuanto Aumento?
+            ¿Cuánto Aumentó?
           </h1>
 
           {/* Search Input */}

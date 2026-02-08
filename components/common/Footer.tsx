@@ -1,7 +1,9 @@
-import { ShoppingCart, Instagram, Github, Heart, Linkedin, Twitter } from "lucide-react";
+import { Instagram, Github, Heart, Linkedin, Twitter } from "lucide-react";
 import Link from "next/link";
 import ParticlesBackground from "./ParticlesBackground";
 import XIcon from '@/components/ui/XIcon';
+
+import Logo from "@/components/ui/Logo";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -25,9 +27,7 @@ const Footer = () => {
             {/* Brand Section */}
             <div className="flex flex-col items-center md:items-start space-y-4">
               <div className="flex items-center gap-3 group">
-                <div className="p-3 bg-brand-primary/10 rounded-xl group-hover:scale-110 transition-transform duration-300">
-                  <ShoppingCart className="w-8 h-8 text-brand-primary" />
-                </div>
+                <Logo />
                 <span className="font-[family-name:var(--font-outfit)] font-bold text-2xl text-gray-900 tracking-tight">
                   cuantoaumento.com.ar
                 </span>

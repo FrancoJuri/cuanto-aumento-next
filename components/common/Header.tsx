@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import Logo from "@/components/ui/Logo";
+
 export default function Header() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,9 +25,12 @@ export default function Header() {
           {/* Logo */}
           <Link
             href="/"
-            className="flex-shrink-0 text-primary-text font-medium text-base sm:text-lg tracking-tight hover:text-brand-primary transition-colors duration-200"
+            className="flex items-center gap-2 flex-shrink-0 group"
           >
-            cuantoaumento.com.ar
+            <Logo />
+            <span className="text-primary-text font-medium text-base sm:text-lg tracking-tight group-hover:text-brand-primary transition-colors duration-200">
+              ¿Cuánto aumentó?
+            </span>
           </Link>
 
           {/* Search Bar */}
