@@ -1,6 +1,7 @@
 import { ShoppingCart, Instagram, Github, Heart, Linkedin, Twitter } from "lucide-react";
 import Link from "next/link";
 import ParticlesBackground from "./ParticlesBackground";
+import XIcon from '@/components/ui/XIcon';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -54,7 +55,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="p-3 rounded-full bg-white/50 hover:bg-white hover:text-gray-900 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-gray-600"
                 >
-                  <Twitter className="w-5 h-5" />
+                  <XIcon className="w-5 h-5" />
                 </Link> 
                 <Link
                   href="https://www.instagram.com/francojuri.web/"
