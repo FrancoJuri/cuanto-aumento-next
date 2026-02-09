@@ -1,13 +1,24 @@
 "use client";
 
 import { Search } from "lucide-react";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ParticlesBackground from "../common/ParticlesBackground";
 
 const HeroSection = () => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [particleQuantity, setParticleQuantity] = useState(10);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setParticleQuantity(window.innerWidth < 500 ? 4 : 10);
+    };
+
+    handleResize(); // Check initial size
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +49,7 @@ const HeroSection = () => {
         <div className="absolute -bottom-[10%] left-[30%] w-[35rem] h-[35rem] bg-gradient-to-tr from-blue-300/40 to-sky-300/40 rounded-full blur-3xl opacity-80" />
       </div>
 
-      <ParticlesBackground />
+      <ParticlesBackground quantity={particleQuantity} />
 
       {/* Main Hero Card */}
       <div className="relative z-10 w-full max-w-xl mx-4 sm:mx-6 lg:mx-8 pointer-events-none">

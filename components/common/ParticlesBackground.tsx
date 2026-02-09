@@ -131,7 +131,7 @@ const ParticlesBackground = memo(function ParticlesBackground({
       },
       detectRetina: true,
     }),
-    []
+    [quantity]
   );
 
   if (!init) return null;

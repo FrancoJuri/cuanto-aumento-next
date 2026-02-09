@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useState, useEffect } from "react";
 import ParticlesBackground from "../common/ParticlesBackground";
 
 export interface CategoryInfo {
@@ -16,6 +16,18 @@ interface CategoryHeroProps {
 }
 
 const CategoryHero = memo(function CategoryHero({ category }: CategoryHeroProps) {
+  const [particleQuantity, setParticleQuantity] = useState(10);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setParticleQuantity(window.innerWidth < 500 ? 5 : 10);
+    };
+
+    handleResize(); // Check initial size
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <section className="relative min-h-[25vh] md:min-h-[30vh] py-12 md:py-16 flex items-center justify-center overflow-hidden">
       {/* Base Background */}
@@ -28,7 +40,7 @@ const CategoryHero = memo(function CategoryHero({ category }: CategoryHeroProps)
         <div className="absolute -bottom-[10%] left-[30%] w-96 h-96 bg-gradient-to-tr from-blue-300/40 to-sky-300/40 rounded-full blur-3xl opacity-80" />
       </div>
 
-      <ParticlesBackground />
+      <ParticlesBackground quantity={particleQuantity} />
 
       {/* Category Content */}
       <div className="relative z-10 w-full max-w-2xl mx-4 sm:mx-6 lg:mx-8 text-center">

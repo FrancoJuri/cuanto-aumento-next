@@ -1,4 +1,4 @@
-import { Instagram, Github, Heart, Linkedin, Twitter } from "lucide-react";
+import { Instagram, Github, Heart, Linkedin } from "lucide-react";
 import Link from "next/link";
 import ParticlesBackground from "./ParticlesBackground";
 import XIcon from '@/components/ui/XIcon';
