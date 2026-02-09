@@ -5,6 +5,7 @@ export { default as Pagination } from "./common/Pagination";
 export { default as ParticlesBackground } from "./common/ParticlesBackground";
 export { default as NotFoundContent } from "./common/NotFoundContent";
 export { LoadingSpinner } from "./common/LoadingSpinner";
+export { default as FavoritesSidebar } from "./common/FavoritesSidebar";
 
 // Home components
 export { default as HeroSection } from "./home/HeroSection";

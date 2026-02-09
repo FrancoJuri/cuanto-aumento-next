@@ -1,5 +1,7 @@
 "use client";
 
+import { useFavorites } from "@/context/FavoritesContext";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -8,6 +10,7 @@ import Logo from "@/components/ui/Logo";
 
 export default function Header() {
   const router = useRouter();
+  const { toggleSidebar, favorites } = useFavorites();
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
@@ -65,12 +68,15 @@ export default function Header() {
             </div>
           </form>
 
-          {/* Bookmark Icon */}
           <button
             type="button"
-            className="flex-shrink-0 p-2 text-gray-500 hover:text-brand-primary transition-colors duration-200 hover:bg-gray-50 rounded-lg"
+            onClick={toggleSidebar}
+            className="flex-shrink-0 p-2 text-gray-500 hover:text-brand-primary transition-colors duration-200 hover:bg-gray-50 rounded-lg relative"
             aria-label="Productos guardados"
           >
+            {favorites.length > 0 && (
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-brand-primary rounded-full"></span>
+            )}
             <svg
               className="w-5 h-5"
               fill="none"

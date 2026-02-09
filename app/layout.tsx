@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
+import { FavoritesProvider } from "@/context/FavoritesContext";
+import { FavoritesSidebar } from "@/components";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -36,7 +38,10 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${inter.variable} ${outfit.variable} antialiased`}>
-        {children}
+        <FavoritesProvider>
+          {children}
+          <FavoritesSidebar />
+        </FavoritesProvider>
       </body>
     </html>
   );

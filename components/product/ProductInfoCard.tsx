@@ -1,5 +1,8 @@
-import { TrendingUp, TrendingDown, Share2 } from "lucide-react";
+"use client";
+
+import { TrendingUp, TrendingDown, Share2, Heart } from "lucide-react";
 import type { ProductDetail } from "@/types";
+import { useFavorites } from "@/context/FavoritesContext";
 
 interface ProductInfoCardProps {
   product: ProductDetail;
@@ -21,6 +24,20 @@ const ProductInfoCard = ({
 }: ProductInfoCardProps) => {
   const priceChange = product.priceChange ?? 0;
   const isPositiveChange = priceChange > 0;
+  
+  const { toggleFavorite, checkIsFavorite } = useFavorites();
+  const isFavorite = checkIsFavorite(product.slug);
+
+  const handleFavoriteClick = () => {
+    toggleFavorite({
+      slug: product.slug,
+      name: product.name,
+      imageUrl: product.imageUrl || "",
+      brand: product.brand,
+      category: product.category,
+      currentPrice: product.currentPrice,
+    });
+  };
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden sticky top-24">
@@ -100,6 +117,19 @@ const ProductInfoCard = ({
           >
             <Share2 className="w-5 h-5" />
             Compartir
+          </button>
+          <button
+            onClick={handleFavoriteClick}
+            className={`flex-1 flex items-center justify-center gap-2 font-semibold py-3 px-4 rounded-xl transition-colors border-2 ${
+              isFavorite
+                ? "bg-red-50 border-red-200 text-red-500 hover:bg-red-100"
+                : "bg-white border-gray-200 text-gray-700 hover:border-red-200 hover:text-red-500"
+            }`}
+          >
+            <Heart
+              className={`w-5 h-5 ${isFavorite ? "fill-current" : ""}`}
+            />
+            {isFavorite ? "Guardado" : "Guardar"}
           </button>
         </div>
       </div>
