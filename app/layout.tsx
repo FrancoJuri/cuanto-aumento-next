@@ -54,9 +54,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "./",
   },
-  verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
-  },
   icons: {
     icon: "/cuanto-aumento-logo.png",
   },
