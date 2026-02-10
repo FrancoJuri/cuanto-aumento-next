@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { TrendingUp, TrendingDown, Share2, Heart } from "lucide-react";
 import type { ProductDetail } from "@/types";
 import { useFavorites } from "@/context/FavoritesContext";
@@ -26,7 +27,13 @@ const ProductInfoCard = ({
   const isPositiveChange = priceChange > 0;
   
   const { toggleFavorite, checkIsFavorite } = useFavorites();
-  const isFavorite = checkIsFavorite(product.slug);
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  const isFavorite = hasMounted && checkIsFavorite(product.slug);
 
   const handleFavoriteClick = () => {
     toggleFavorite({

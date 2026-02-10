@@ -19,6 +19,7 @@ export interface FavoriteProduct {
 
 interface FavoritesContextType {
   favorites: FavoriteProduct[];
+  isInitialized: boolean;
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
   toggleFavorite: (product: FavoriteProduct) => void;
@@ -82,6 +83,7 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     <FavoritesContext.Provider
       value={{
         favorites,
+        isInitialized,
         isSidebarOpen,
         toggleSidebar,
         toggleFavorite,

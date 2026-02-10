@@ -3,6 +3,8 @@ import { getProductBySlug } from "@/lib/api";
 import type { ProductDetail } from "@/types";
 import { mapApiProductToProductDetail } from "@/lib/mappers";
 import { Metadata } from "next";
+import { JsonLd } from "@/components/common/JsonLd";
+import type { Product, BreadcrumbList, WithContext } from "schema-dts";
 
 interface ProductDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -37,6 +39,55 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
     throw error;
   }
 
-  return <ProductDetailClient product={product} />;
-}
+  const jsonLd: WithContext<Product> = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    image: product.imageUrl || undefined,
+    description: `Precio actual de ${product.name} en supermercados de Argentina.`,
+    brand: {
+      "@type": "Brand",
+      name: product.brand,
+    },
+    offers: {
+      "@type": "Offer",
+      price: product.lowestPrice,
+      priceCurrency: "ARS",
+      availability: "https://schema.org/InStock",
+      url: `https://cuantoaumento.com.ar/producto/${slug}`,
+    },
+  };
 
+  const breadcrumbJsonLd: WithContext<BreadcrumbList> = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Inicio",
+        item: "https://cuantoaumento.com.ar",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: product.category,
+        item: `https://cuantoaumento.com.ar/categoria/${product.categorySlug}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: product.name,
+        item: `https://cuantoaumento.com.ar/producto/${slug}`,
+      },
+    ],
+  };
+
+  return (
+    <>
+      <JsonLd data={jsonLd} />
+      <JsonLd data={breadcrumbJsonLd} />
+      <ProductDetailClient product={product} />
+    </>
+  );
+}

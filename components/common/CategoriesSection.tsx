@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 
 import { useFavorites } from "@/context/FavoritesContext";
@@ -35,7 +35,12 @@ const CategoriesSection = ({
   isSticky = true,
 }: CategoriesSectionProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
   const { favorites, toggleSidebar } = useFavorites();
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   const handleCategoryClick = useCallback(
     (slug: string) => {
@@ -93,7 +98,7 @@ const CategoriesSection = ({
             className="flex-shrink-0 p-2 text-gray-500 hover:text-brand-primary transition-colors duration-200 hover:bg-gray-50 rounded-lg relative ml-2"
             aria-label="Ver favoritos"
           >
-            {favorites.length > 0 && (
+            {hasMounted && favorites.length > 0 && (
               <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-brand-primary rounded-full"></span>
             )}
             <svg

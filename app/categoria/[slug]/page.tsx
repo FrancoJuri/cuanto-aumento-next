@@ -10,6 +10,8 @@ import {
 } from "@/components";
 import { getCategories } from "@/lib/api";
 import { CATEGORY_CONFIG } from "@/lib/categories";
+import { JsonLd } from "@/components/common/JsonLd";
+import type { CollectionPage, BreadcrumbList, WithContext } from "schema-dts";
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;
@@ -76,8 +78,37 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     // productCount is undefined initially, loaded via Suspense
   };
 
+  const jsonLd: WithContext<CollectionPage> = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: info.name,
+    description: info.description,
+    url: `https://cuantoaumento.com.ar/categoria/${slug}`,
+  };
+
+  const breadcrumbJsonLd: WithContext<BreadcrumbList> = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Inicio",
+        item: "https://cuantoaumento.com.ar",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: info.name,
+        item: `https://cuantoaumento.com.ar/categoria/${slug}`,
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-bg-main">
+      <JsonLd data={jsonLd} />
+      <JsonLd data={breadcrumbJsonLd} />
       {/* Header */}
       <Header />
 
