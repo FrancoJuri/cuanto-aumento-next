@@ -1,7 +1,9 @@
 import { ImageResponse } from "next/og";
-import { getProductBySlug } from "@/lib/api";
 
 export const runtime = "edge";
+
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -9,7 +11,11 @@ interface Props {
 
 export default async function Image({ params }: Props) {
   const { slug } = await params;
-  const product = await getProductBySlug(slug).catch(() => null);
+  const product = await fetch(`${API_BASE_URL}/products/${slug}`, {
+    next: { revalidate: 3600 },
+  })
+    .then((res) => (res.ok ? res.json() : null))
+    .catch(() => null);
 
   if (!product) {
     return new ImageResponse(
