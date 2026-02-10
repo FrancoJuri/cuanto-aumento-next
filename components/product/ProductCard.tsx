@@ -30,7 +30,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     <Link href={`/producto/${product.ean}`} className="block group">
       <article className="bg-white rounded-xl border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-gray-300 hover:-translate-y-1">
         {/* Image Section */}
-        <div className="relative aspect-[4/5] bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="relative aspect-[4/3] sm:aspect-[4/5] bg-gradient-to-br from-gray-50 to-gray-100">
           {/* Bookmark Button */}
           <button
             className={`absolute top-3 right-3 p-2 rounded-lg backdrop-blur-sm border transition-colors cursor-pointer z-10 ${
