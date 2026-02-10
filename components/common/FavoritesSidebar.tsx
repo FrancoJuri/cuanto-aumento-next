@@ -86,7 +86,7 @@ export default function FavoritesSidebar() {
                 </p>
                 <button
                   onClick={toggleSidebar}
-                  className="mt-4 px-6 py-2 bg-brand-primary text-white rounded-full font-medium hover:bg-brand-primary-dark transition-colors"
+                  className="mt-4 px-6 py-2 bg-brand-primary text-white rounded-full font-medium hover:bg-brand-primary-dark transition-colors cursor-pointer"
                 >
                   Explorar productos
                 </button>

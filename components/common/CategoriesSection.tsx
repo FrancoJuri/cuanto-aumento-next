@@ -2,6 +2,8 @@
 
 import { useCallback, useState } from "react";
 
+
+import { useFavorites } from "@/context/FavoritesContext";
 import { CATEGORY_CONFIG } from "@/lib/categories";
 import Modal from "@/components/common/Modal";
 
@@ -33,6 +35,7 @@ const CategoriesSection = ({
   isSticky = true,
 }: CategoriesSectionProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { favorites, toggleSidebar } = useFavorites();
 
   const handleCategoryClick = useCallback(
     (slug: string) => {
@@ -52,8 +55,8 @@ const CategoriesSection = ({
           isSticky ? "sticky top-0 z-40" : ""
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex space-x-2 py-4 overflow-x-auto scrollbar-hide">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <div className="flex space-x-2 py-4 overflow-x-auto scrollbar-hide flex-1">
             {visibleCategories.map((category) => {
               const isActive =
                 activeCategory === category.slug ||
@@ -84,6 +87,30 @@ const CategoriesSection = ({
               Ver más...
             </button>
           </div>
+
+          <button
+            onClick={toggleSidebar}
+            className="flex-shrink-0 p-2 text-gray-500 hover:text-brand-primary transition-colors duration-200 hover:bg-gray-50 rounded-lg relative ml-2"
+            aria-label="Ver favoritos"
+          >
+            {favorites.length > 0 && (
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-brand-primary rounded-full"></span>
+            )}
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
 

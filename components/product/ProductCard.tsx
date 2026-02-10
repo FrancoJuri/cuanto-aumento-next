@@ -1,6 +1,7 @@
 import { Bookmark } from "lucide-react";
 import Link from "next/link";
 import { ApiProduct } from "@/lib/api";
+import { useFavorites } from "@/context/FavoritesContext";
 
 interface ProductCardProps {
   product: ApiProduct;
@@ -8,6 +9,22 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const supermarketCount = product.prices.length;
+  const { toggleFavorite, checkIsFavorite } = useFavorites();
+  const isFavorite = checkIsFavorite(product.ean);
+
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    toggleFavorite({
+      slug: product.ean,
+      name: product.name,
+      imageUrl: product.image_url || "",
+      brand: product.brand,
+      category: product.category,
+      currentPrice: product.min_price || 0,
+    });
+  };
 
   return (
     <Link href={`/producto/${product.ean}`} className="block group">
@@ -16,15 +33,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <div className="relative aspect-[4/5] bg-gradient-to-br from-gray-50 to-gray-100">
           {/* Bookmark Button */}
           <button
-            className="absolute top-3 right-3 p-2 rounded-lg bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-400 hover:text-brand-primary hover:bg-white transition-colors z-10"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              // TODO: Implement bookmark functionality
-            }}
-            aria-label="Guardar producto"
+            className={`absolute top-3 right-3 p-2 rounded-lg backdrop-blur-sm border transition-colors cursor-pointer z-10 ${
+              isFavorite
+                ? "bg-brand-primary text-white border-brand-primary"
+                : "bg-white/80 border-gray-200 text-gray-400 hover:text-brand-primary hover:bg-white"
+            }`}
+            onClick={handleToggleFavorite}
+            aria-label={isFavorite ? "Quitar de favoritos" : "Guardar en favoritos"}
           >
-            <Bookmark className="w-4 h-4" />
+            <Bookmark className={`w-4 h-4 ${isFavorite ? "fill-current" : ""}`} />
           </button>
 
           {/* Product Image or Name Overlay */}
