@@ -76,7 +76,7 @@ const SupermarketChartModal = ({
   isOpen,
   onClose,
 }: SupermarketChartModalProps) => {
-  const [selectedRange, setSelectedRange] = useState<TimeRange>("7D");
+  const [selectedRange, setSelectedRange] = useState<TimeRange>("1M");
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {

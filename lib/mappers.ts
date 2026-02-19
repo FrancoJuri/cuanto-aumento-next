@@ -17,7 +17,7 @@ export function mapApiProductToProductDetail(apiProduct: ApiProductDetail, slug:
     priceHistory: (s.price_history || []).map(h => ({
       date: h.date,
       price: h.price
-    })),
+    })).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()),
   }));
 
   // Sort supermarkets by price (lowest first)
