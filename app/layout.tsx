@@ -55,7 +55,10 @@ export const metadata: Metadata = {
     canonical: "./",
   },
   icons: {
-    icon: "/cuanto-aumento-logo.png",
+    icon: [
+      { url: "/favicon.ico", sizes: 'any' },
+      { url: "/cuanto-aumento-logo.png", sizes: '512x512' },
+    ]
   },
 };
 
