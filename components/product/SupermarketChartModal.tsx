@@ -104,14 +104,31 @@ const SupermarketChartModal = ({
     [supermarket.priceHistory, selectedRange]
   );
 
-  const chartData = useMemo(
-    () =>
-      filteredData.map((item) => ({
-        ...item,
-        formattedDate: formatChartDate(item.date),
-      })),
-    [filteredData]
-  );
+  const chartData = useMemo(() => {
+    const mapped = filteredData.map((item) => ({
+      ...item,
+      formattedDate: formatChartDate(item.date),
+    }));
+
+    // Force a data point at today's date with the current price
+    // so the chart always reflects the present state
+    const today = new Date();
+    const todayStr = today.toISOString().split("T")[0]; // "YYYY-MM-DD"
+    const lastEntry = mapped[mapped.length - 1];
+    const lastDateStr = lastEntry
+      ? new Date(lastEntry.date).toISOString().split("T")[0]
+      : null;
+
+    if (!lastEntry || lastDateStr !== todayStr) {
+      mapped.push({
+        date: todayStr,
+        price: supermarket.currentPrice,
+        formattedDate: formatChartDate(todayStr),
+      });
+    }
+
+    return mapped;
+  }, [filteredData, supermarket.currentPrice]);
 
   if (!isOpen) return null;
 
