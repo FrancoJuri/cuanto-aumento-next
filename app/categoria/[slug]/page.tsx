@@ -13,9 +13,10 @@ import { CATEGORY_CONFIG } from "@/lib/categories";
 import { JsonLd } from "@/components/common/JsonLd";
 import type { CollectionPage, BreadcrumbList, WithContext } from "schema-dts";
 
+export const revalidate = 57600; // 16 hours ISR
+
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 // Generate static params for known categories
@@ -55,11 +56,8 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   };
 }
 
-export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
+export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params;
-  const { page } = await searchParams;
-  const currentPage = typeof page === "string" ? parseInt(page) : 1;
-  const pageNumber = isNaN(currentPage) || currentPage < 1 ? 1 : currentPage;
 
   const info = CATEGORY_CONFIG[slug];
 
@@ -133,12 +131,12 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
       </nav>
 
       {/* Products Section with Suspense */}
-      <Suspense fallback={<LoadingSpinner />} key={pageNumber}>
-        <CategoryProductsSection 
+      <Suspense fallback={<LoadingSpinner />}>
+        <CategoryProductsSection
           categoryName={info.name}
           categorySlug={slug}
           categoryInfo={info}
-          page={pageNumber} 
+          page={1}
         />
       </Suspense>
 

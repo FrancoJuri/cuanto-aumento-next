@@ -6,6 +6,12 @@ import { Metadata } from "next";
 import { JsonLd } from "@/components/common/JsonLd";
 import type { Product, BreadcrumbList, WithContext } from "schema-dts";
 
+export const revalidate = 57600; // 16 hours ISR
+
+export async function generateStaticParams() {
+  return []; // Products are ISR'd on first request
+}
+
 interface ProductDetailPageProps {
   params: Promise<{ slug: string }>;
 }

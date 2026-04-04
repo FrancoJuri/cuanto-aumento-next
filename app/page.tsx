@@ -1,23 +1,17 @@
 import { Suspense } from "react";
 import { HeroSection, Footer, ProductsSection, LoadingSpinner } from "@/components";
 
-interface HomeProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
+export const revalidate = 57600; // 16 hours ISR
 
-export default async function Home({ searchParams }: HomeProps) {
-  const { page } = await searchParams;
-  const currentPage = typeof page === "string" ? parseInt(page) : 1;
-  const pageNumber = isNaN(currentPage) || currentPage < 1 ? 1 : currentPage;
-
+export default function Home() {
   return (
     <div className="min-h-screen bg-bg-main">
       {/* Hero Section */}
       <HeroSection />
 
       {/* Products Section with Suspense for loading state */}
-      <Suspense fallback={<LoadingSpinner />} key={pageNumber}>
-        <ProductsSection page={pageNumber} />
+      <Suspense fallback={<LoadingSpinner />}>
+        <ProductsSection page={1} />
       </Suspense>
 
       {/* Footer */}
