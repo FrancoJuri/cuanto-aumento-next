@@ -1,5 +1,5 @@
 import { ProductDetailClient } from "@/components";
-import { getProductBySlug } from "@/lib/api";
+import { getProductBySlug, getProducts } from "@/lib/api";
 import type { ProductDetail } from "@/types";
 import { mapApiProductToProductDetail } from "@/lib/mappers";
 import { Metadata } from "next";
@@ -9,7 +9,12 @@ import type { Product, BreadcrumbList, WithContext } from "schema-dts";
 export const revalidate = 57600; // 16 hours ISR
 
 export async function generateStaticParams() {
-  return []; // Products are ISR'd on first request
+  try {
+    const { products } = await getProducts({ page: 1, limit: 200 });
+    return products.map((product) => ({ slug: product.ean }));
+  } catch {
+    return [];
+  }
 }
 
 interface ProductDetailPageProps {

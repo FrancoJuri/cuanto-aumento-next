@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { getProducts } from "@/lib/api";
 import { CATEGORY_CONFIG } from "@/lib/categories";
 
-export const revalidate = 86400; // Cache for 24 hours (1 day)
+export const revalidate = 604800; // Cache for 7 days
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://cuantoaumento.com.ar";

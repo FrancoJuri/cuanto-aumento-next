@@ -3,6 +3,7 @@ import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { FavoritesProvider } from "@/context/FavoritesContext";
 import { FavoritesSidebar } from "@/components";
+import GoogleAnalytics from "@/components/common/GoogleAnalytics";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -70,6 +71,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${inter.variable} ${outfit.variable} antialiased`}>
+        <GoogleAnalytics />
         <FavoritesProvider>
           {children}
           <FavoritesSidebar />

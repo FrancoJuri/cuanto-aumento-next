@@ -12,7 +12,7 @@ interface Props {
 export default async function Image({ params }: Props) {
   const { slug } = await params;
   const product = await fetch(`${API_BASE_URL}/products/${slug}`, {
-    next: { revalidate: 3600 },
+    next: { revalidate: 57600 },
   })
     .then((res) => (res.ok ? res.json() : null))
     .catch(() => null);
