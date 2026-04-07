@@ -13,7 +13,7 @@ import { CATEGORY_CONFIG } from "@/lib/categories";
 import { JsonLd } from "@/components/common/JsonLd";
 import type { CollectionPage, BreadcrumbList, WithContext } from "schema-dts";
 
-export const revalidate = 57600; // 16 hours ISR
+export const revalidate = 86400; // 24 hours ISR
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;

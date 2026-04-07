@@ -6,12 +6,30 @@ import { Metadata } from "next";
 import { JsonLd } from "@/components/common/JsonLd";
 import type { Product, BreadcrumbList, WithContext } from "schema-dts";
 
-export const revalidate = 57600; // 16 hours ISR
+export const revalidate = 86400; // 24 hours ISR
 
 export async function generateStaticParams() {
   try {
-    const { products } = await getProducts({ page: 1, limit: 200 });
-    return products.map((product) => ({ slug: product.ean }));
+    const BATCH_SIZE = 100;
+    const initialData = await getProducts({ page: 1, limit: BATCH_SIZE });
+    const totalProducts = initialData.pagination.total;
+    const totalPages = Math.ceil(totalProducts / BATCH_SIZE);
+
+    const slugs = initialData.products.map((p) => ({ slug: p.ean }));
+
+    const CONCURRENCY = 10;
+    for (let i = 2; i <= totalPages; i += CONCURRENCY) {
+      const promises = [];
+      for (let j = 0; j < CONCURRENCY && i + j <= totalPages; j++) {
+        promises.push(getProducts({ page: i + j, limit: BATCH_SIZE }));
+      }
+      const results = await Promise.all(promises);
+      results.forEach((data) => {
+        slugs.push(...data.products.map((p) => ({ slug: p.ean })));
+      });
+    }
+
+    return slugs;
   } catch {
     return [];
   }

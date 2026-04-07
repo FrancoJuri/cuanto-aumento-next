@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { HeroSection, Footer, ProductsSection, LoadingSpinner } from "@/components";
 
-export const revalidate = 57600; // 16 hours ISR
+export const revalidate = 86400; // 24 hours ISR
 
 export default function Home() {
   return (

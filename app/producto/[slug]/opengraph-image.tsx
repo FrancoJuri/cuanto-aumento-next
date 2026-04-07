@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
+export const revalidate = 86400; // 24 hours
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
@@ -12,7 +13,7 @@ interface Props {
 export default async function Image({ params }: Props) {
   const { slug } = await params;
   const product = await fetch(`${API_BASE_URL}/products/${slug}`, {
-    next: { revalidate: 57600 },
+    next: { revalidate: 86400 },
   })
     .then((res) => (res.ok ? res.json() : null))
     .catch(() => null);
