@@ -1,6 +1,6 @@
 import { Bookmark } from "lucide-react";
 import Link from "next/link";
-import { ApiProduct } from "@/lib/api";
+import { ApiProduct, getEffectiveMinPrice } from "@/lib/api";
 import { useFavorites } from "@/context/FavoritesContext";
 
 interface ProductCardProps {
@@ -8,21 +8,22 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const supermarketCount = product.prices.length;
+  // Count every supermarket that lists the product, regardless of availability.
+  const supermarketCount = product.prices?.length ?? 0;
   const { toggleFavorite, checkIsFavorite } = useFavorites();
   const isFavorite = checkIsFavorite(product.ean);
 
   const handleToggleFavorite = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     toggleFavorite({
       slug: product.ean,
       name: product.name,
       imageUrl: product.image_url || "",
       brand: product.brand,
       category: product.category,
-      currentPrice: product.min_price || 0,
+      currentPrice: getEffectiveMinPrice(product.min_price, product.prices || []),
     });
   };
 

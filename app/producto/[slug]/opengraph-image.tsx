@@ -44,11 +44,23 @@ export default async function Image({ params }: Props) {
   // For the purpose of the OG image, we just show the current state clearly.
   // In a future iteration we could pre-calculate points via API if needed.
 
+  // `min_price` is null when every offer is currently unavailable; fall back to
+  // the lowest known price across supermarkets so the OG image never shows $0.
+  const supermarketPrices: number[] = (product.supermarkets || [])
+    .map((s: { price: number }) => s.price)
+    .filter((p: number) => p > 0);
+  const effectiveMinPrice =
+    product.min_price && product.min_price > 0
+      ? product.min_price
+      : supermarketPrices.length > 0
+      ? Math.min(...supermarketPrices)
+      : 0;
+
   const priceFormatted = new Intl.NumberFormat("es-AR", {
     style: "currency",
     currency: "ARS",
     maximumFractionDigits: 0,
-  }).format(product.min_price || 0);
+  }).format(effectiveMinPrice);
 
   return new ImageResponse(
     (

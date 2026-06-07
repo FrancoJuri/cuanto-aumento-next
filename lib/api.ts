@@ -16,6 +16,7 @@ export interface SupermarketPrice {
   supermarket: string;
   price: number;
   list_price: number | null;
+  is_available?: boolean;
 }
 
 export interface ApiProduct {
@@ -48,6 +49,24 @@ export interface ApiCategory {
 export interface CategoriesResponse {
   categories: ApiCategory[];
   total: number;
+}
+
+/**
+ * Returns the effective minimum price for a product.
+ *
+ * The backend computes `min_price` only from *available* offers, so a product
+ * whose offers are all currently `is_available: false` comes back with
+ * `min_price: null` even though it still has known (last-seen) prices. In that
+ * case we fall back to the lowest positive price found across the offers so the
+ * UI (price labels, inflation chart) still has something meaningful to show.
+ */
+export function getEffectiveMinPrice(
+  minPrice: number | null | undefined,
+  offers: Array<{ price: number }> = []
+): number {
+  if (minPrice && minPrice > 0) return minPrice;
+  const positivePrices = offers.map((o) => o.price).filter((p) => p > 0);
+  return positivePrices.length > 0 ? Math.min(...positivePrices) : 0;
 }
 
 // Funciones de la API
@@ -120,6 +139,7 @@ export interface ApiSupermarket {
   name: string;
   price: number;
   list_price: number | null;
+  is_available?: boolean;
   product_url?: string;
   price_history: ApiPriceHistoryItem[];
 }

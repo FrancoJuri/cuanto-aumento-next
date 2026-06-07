@@ -1,9 +1,12 @@
-import { ApiProductDetail } from "./api";
+import { ApiProductDetail, getEffectiveMinPrice } from "./api";
 import { ProductDetail, SupermarketPrice } from "@/types";
 import { normalizeCategorySlug, CATEGORY_CONFIG } from "./categories";
 
 export function mapApiProductToProductDetail(apiProduct: ApiProductDetail, slug: string): ProductDetail {
-  const currentPrice = apiProduct.min_price || 0;
+  // `min_price` is null when every offer is currently unavailable, so fall back
+  // to the lowest known price across supermarkets.
+  const effectiveMinPrice = getEffectiveMinPrice(apiProduct.min_price, apiProduct.supermarkets || []);
+  const currentPrice = effectiveMinPrice;
 
   let supermarkets: SupermarketPrice[] = (apiProduct.supermarkets || []).map((s) => ({
     id: (s.name || "unknown").toLowerCase().replace(/\s+/g, '-'),
@@ -12,7 +15,7 @@ export function mapApiProductToProductDetail(apiProduct: ApiProductDetail, slug:
     previousPrice: s.list_price || s.price || 0,
     priceChange: 0,
     lastUpdated: new Date().toISOString(),
-    isBestPrice: s.price === apiProduct.min_price,
+    isBestPrice: effectiveMinPrice > 0 && s.price === effectiveMinPrice,
     productUrl: s.product_url,
     priceHistory: (s.price_history || []).map(h => ({
       date: h.date,
@@ -49,7 +52,7 @@ export function mapApiProductToProductDetail(apiProduct: ApiProductDetail, slug:
     currentPrice: currentPrice,
     previousPrice: 0,
     priceChange: 0,
-    lowestPrice: apiProduct.min_price || 0,
+    lowestPrice: effectiveMinPrice,
     highestPrice: supermarkets.length > 0 ? Math.max(...supermarkets.map((s) => s.currentPrice)) : currentPrice,
     priceHistory: globalPriceHistory,
     supermarkets: supermarkets,
